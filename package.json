@@ -4,7 +4,8 @@
   "description": "BFF for car taxi",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "dev": "nodemon index",
+    "start": "node index"
   },
   "author": "Roshan Dev",
   "license": "ISC",
@@ -13,6 +14,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "ioredis": "^5.2.3",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21"
   }
