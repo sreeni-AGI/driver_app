@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
-const config = require('../config');
+const { config } = require('../config');
 const { formatError } = require('../helpers/utils');
 const driverService = require("../services/driver.service")
 const smsService = require("../services/sms.service")
