@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
-const config = require('../config');
+const { config } = require('../config');
 const { formatError } = require('../helpers/utils');
 const driverService = require("../services/driver.service")
 const smsService = require("../services/sms.service")
@@ -13,13 +13,17 @@ module.exports = {
             console.log(req.body);
             const { mobileNumber } = await driverService.details(req.body.driverId);
             let OTP = await client.get("DRIVER_BFF_"+req.body.driverId);
+            // console.log(OTP);
             if(!OTP){
                 OTP = _.random(999, 9999);                
                 await client.set("DRIVER_BFF_"+req.body.driverId, OTP, 'ex', config.OTP_EXPIRE*60);
             }            
+            // console.log(config.otp.sms[req.language]);
             const toSend = _.template(config.appConfig.otp.sms[req.language])({ OTP });
-            const isSent = await smsService.send(mobileNumber, toSend);
-            if (isSent) return res.json({ msg: _.template(config.appConfig.otp.client[language])({ mobileLast4digit: mobileNumber.slice(-4) }) });
+            console.log(toSend);
+            // const isSent = await smsService.send(mobileNumber, toSend);
+            // if (isSent) return res.json({ msg: _.template(config.appConfig.otp.client[language])({ mobileLast4digit: mobileNumber.slice(-4) }) });
+            res.json({ msg:"yes"});
         } catch (error) {
             return res.status(400).send(formatError(error))
         }
