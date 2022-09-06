@@ -7,9 +7,8 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use('/api', require('./routes'))
+app.use('/api', require('./routes'));
 
-app.get('/', (req,res) => res.send('BFF for car and taxi'));
-
+app.get('/', (req, res) => res.send('BFF for car and taxi'));
 
 module.exports = app;

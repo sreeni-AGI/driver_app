@@ -24,13 +24,13 @@ module.exports = {
     Object.assign(this.config, {
       otp: {
         sms: {
-          EN: "OTP for car taxi app login is ${OTP}",
+          EN: 'OTP for car taxi app login is ${OTP}',
         },
         client: {
-          EN: "Enter the OTP which is send to your registered mobile number *****${mobileLast4digit}",
+          EN: 'Enter the OTP which is send to your registered mobile number *****${mobileLast4digit}',
         },
         wrongOtp: {
-          EN: "OTP Mismatch, Try Again",
+          EN: 'OTP Mismatch, Try Again',
         },
       },
     });

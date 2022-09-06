@@ -6,5 +6,4 @@ router.use(useHeader);
 
 router.use('/auth', auth);
 
-
 module.exports = router;
