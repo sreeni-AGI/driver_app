@@ -1,10 +1,10 @@
 const app = require('./app');
-const { appConfig } = require('./config');
+const config = require('./config');
 const redisClient = require('./helpers/redisClient');
 
 
 async function main() {
-    await appConfig();
+    await config.appConfig();
     await redisClient.ping();
     console.log('redis connected');
     app.listen(3001);
