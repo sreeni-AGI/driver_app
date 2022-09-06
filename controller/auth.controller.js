@@ -14,17 +14,19 @@ module.exports = {
           let OTP = await client.get("DRIVER_BFF_"+req.body.driverId);
             if(!OTP){
                 OTP = _.random(999, 9999);                
-                await client.set("DRIVER_BFF_"+req.body.driverId, OTP, 'ex', config.OTP_EXPIRE*60);
+                await client.set("DRIVER_BFF_"+req.body.driverId, OTP, 'ex', 300);
             } 
+
           const toSend = _.template(config.otp.sms[req.language])({ OTP });
           const isSent = await smsService.send(mobileNumber, toSend);
           if (isSent)
             return res.json({
-              msg: _.template(config.otp.client[language])({
+              msg: _.template(config.otp.client[req.language])({
                 mobileLast4digit: mobileNumber.slice(-4),
               }),
             });
         } catch (error) {
+            console.log(error);
           return res.status(400).send(formatError(error));
         }
       },
