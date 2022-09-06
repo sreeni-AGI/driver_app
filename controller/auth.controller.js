@@ -14,7 +14,7 @@ module.exports = {
       const isSent = await smsService.send(mobileNumber, toSend);
       if (isSent)
         return res.json({
-          msg: _.template(config.otp.client[language])({
+          msg: _.template(config.otp.client[req.language])({
             mobileLast4digit: mobileNumber.slice(-4),
           }),
         });
