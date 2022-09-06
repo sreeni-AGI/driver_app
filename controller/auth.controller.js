@@ -10,10 +10,10 @@ module.exports = {
   sendOtp: async (req, res) => {
     try {
       const { mobileNumber } = await driverService.details(req.body.driverId);
-      let OTP = await client.get('DRIVER_BFF_' + req.body.driverId);
+      let OTP = await client.get(config.REDIS_PRIFIX + req.body.driverId);
       if (!OTP) {
         OTP = _.random(999, 9999);
-        await client.set('DRIVER_BFF_' + req.body.driverId, OTP, 'ex', 300);
+        await client.set(config.REDIS_PRIFIX + req.body.driverId, OTP, 'ex', 300);
       }
 
       const toSend = _.template(config.otp.sms[req.language])({ OTP });
@@ -33,7 +33,7 @@ module.exports = {
     const tokendata = { driverId: req.body.driverId };
     const isVerified = true;
     const { OTP } = req.body.OTP;
-    let redisOTP = await client.get('DRIVER_BFF_' + req.body.driverId);
+    let redisOTP = await client.get(config.REDIS_PRIFIX + req.body.driverId);
     isVerified = OTP === redisOTP ? true : false;
     if (!isVerified)
       return res.status(401).json({ msg: config.otp.wrongOtp[req.language] });
