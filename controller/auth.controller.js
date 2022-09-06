@@ -41,6 +41,9 @@ module.exports = {
         return res.json({
           accestoken: jwt.sign(tokendata, config.JWT_SECRET, { expiresIn: "1d" }),
           refreshToken: jwt.sign(tokendata, config.JWT_SECRET, { expiresIn: "14d" }),
+          msg: _.template(config.otp.client[req.language])({
+            mobileLast4digit: mobileNumber.slice(-4),
+          }),
         });
     }
 }
