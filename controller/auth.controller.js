@@ -8,11 +8,10 @@ const smsService = require("../services/sms.service")
 
 module.exports = {
     send: async (req, res) => {
-        const language = req.headers['accept-language'] || 'EN';
         try {
-            const { mobileNumber } = await driverService.details(req.body.driver);
+            const { mobileNumber } = await driverService.details(req.body.driverId);
             let OTP = _.random(999, 9999);
-            const toSend = _.template(config.otp.sms[language])({ OTP });
+            const toSend = _.template(config.otp.sms[req.language])({ OTP });
             const isSent = await smsService.send(mobileNumber, toSend);
             if (isSent) return res.json({ msg: _.template(config.otp.client[language])({ mobileLast4digit: mobileNumber.slice(-4) }) });
         } catch (error) {
@@ -23,6 +22,7 @@ module.exports = {
     verify: (req, res) => {
         const tokendata = { driverId: req.body.driverId };
         const isVerified = true
+        if (!isVerified) return res.status(401).json({ msg: config.otp.wrongOtp[req.language] })
         return res.json({ accestoken: jwt.sign(tokendata, 'JWTSECRET', { expiresIn: '1d' }), refreshToken: jwt.sign(tokendata, 'JWTSECRET', { expiresIn: '14d' }) })
     }
 }
