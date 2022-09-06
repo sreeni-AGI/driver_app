@@ -1,0 +1,18 @@
+{
+  "name": "car_taxi",
+  "version": "1.0.0",
+  "description": "BFF for car taxi",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Roshan Dev",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21"
+  }
+}
