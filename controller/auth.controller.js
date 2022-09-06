@@ -9,19 +9,30 @@ const client = require('../helpers/redisClient');
 module.exports = {
   sendOtp: async (req, res) => {
     try {
-      const { mobileNumber } = await driverService.details(req.body.driverId);
-      let OTP = await client.get(config.REDIS_PRIFIX + req.body.driverId);
+      const driver = await driverService.details(
+        { 'STAFF NUMBER': parseInt(req.body.staffId) },
+        { mobileNumber: '$Mobile', _id: 0 }
+      );
+      if (!driver)
+        return res
+          .status(404)
+          .json({ msg: 'No Driver Found with this Staff Id' });
+      let OTP = await client.get(config.REDIS_PRIFIX + req.body.staffId);
       if (!OTP) {
         OTP = _.random(999, 9999);
-        await client.set(config.REDIS_PRIFIX + req.body.driverId, OTP, 'ex', 300);
+        await client.set(
+          config.REDIS_PRIFIX + req.body.staffId,
+          OTP,
+          'ex',
+          300
+        );
       }
-
       const toSend = _.template(config.otp.sms[req.language])({ OTP });
-      const isSent = await smsService.send(mobileNumber, toSend);
+      const isSent = await smsService.send(driver.mobileNumber.toString(), toSend);
       if (isSent)
         return res.json({
           msg: _.template(config.otp.client[req.language])({
-            mobileLast4digit: mobileNumber.slice(-4),
+            mobileLast4digit: driver.mobileNumber.toString().slice(-4),
           }),
         });
     } catch (error) {
@@ -30,21 +41,15 @@ module.exports = {
     }
   },
   verifyOtp: async (req, res) => {
-    const tokendata = { driverId: req.body.driverId };
-    const isVerified = true;
-    const { OTP } = req.body.OTP;
-    let redisOTP = await client.get(config.REDIS_PRIFIX + req.body.driverId);
-    isVerified = OTP === redisOTP ? true : false;
-    if (!isVerified)
-      return res.status(401).json({ msg: config.otp.wrongOtp[req.language] });
+    const tokendata = { staffId: req.body.staffId };
+    const isVerified = await client.get(config.REDIS_PRIFIX + req.body.staffId) == req.body.OTP;
+    if (!isVerified) return res.status(401).json({ msg: config.otp.wrongOtp[req.language] });
+    client.del(config.REDIS_PRIFIX + req.body.staffId)
     return res.json({
       accestoken: jwt.sign(tokendata, config.JWT_SECRET, { expiresIn: '1d' }),
       refreshToken: jwt.sign(tokendata, config.JWT_SECRET, {
         expiresIn: '14d',
-      }),
-      msg: _.template(config.otp.client[req.language])({
-        mobileLast4digit: mobileNumber.slice(-4),
-      }),
+      })
     });
   },
 };

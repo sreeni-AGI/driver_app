@@ -1,5 +1,7 @@
+const driver = require("../model/driver");
+
 module.exports = {
-  details: async (driverId, projection) => {
-    return { mobileNumber: '971527622932' };
+  details: async (filter, projection) => {
+    return driver.findOne(filter, projection).lean();
   },
 };
