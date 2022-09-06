@@ -4,7 +4,7 @@ const { smsPayload } = require("../helpers/utils");
 
 module.exports = {
   send: async (mobileNumber, msg) => {
-    const { data } = await axios.post(
+    await axios.post(
       config.SMS_HOST,
       smsPayload(mobileNumber, msg),
       {
