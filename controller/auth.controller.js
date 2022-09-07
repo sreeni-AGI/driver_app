@@ -40,20 +40,10 @@ module.exports = {
     }
   },
   verifyOtp: async (req, res) => {
-<<<<<<< HEAD
-    const tokendata = { driverId: req.body.driverId };
-    const { mobileNumber } = await driverService.details(req.body.driverId);
-    let isVerified = true;
-    let redisOTP = await client.get('DRIVER_BFF_' + req.body.driverId);
-    isVerified = (req.body.OTP === redisOTP) ? true : false;
-    if (!isVerified)
-      return res.status(401).json({ msg: config.otp.wrongOtp[req.language] });
-=======
     const tokendata = { staffId: req.body.staffId };
     const isVerified = await client.get(config.REDIS_PRIFIX + req.body.staffId) == req.body.OTP;
     if (!isVerified) return res.status(401).json({ msg: config.otp.wrongOtp[req.language] });
     client.del(config.REDIS_PRIFIX + req.body.staffId)
->>>>>>> fbb782d4fc021f19480d173fc84ff964573fb1b6
     return res.json({
       accestoken: jwt.sign(tokendata, config.JWT_SECRET, { expiresIn: '1d' }),
       refreshToken: jwt.sign(tokendata, config.JWT_SECRET, {
