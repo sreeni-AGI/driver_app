@@ -11,7 +11,7 @@ module.exports = {
     try {
       const driver = await driverService.details(
         { 'STAFF NUMBER': parseInt(req.body.staffId) },
-        { mobileNumber: '$Mobile', _id: 0 }
+        { mobileNumber: '$Mobile', _id: 0, Mobile: 1 }
       );
       if (!driver)
         return res
@@ -19,7 +19,7 @@ module.exports = {
           .json({ msg: 'No Driver Found with this Staff Id' });
       let OTP = await client.get(config.REDIS_PRIFIX + req.body.staffId);
       if (!OTP) {
-        OTP = _.random(999, 9999);
+        OTP = _.random(9999, 99999);
         await client.set(
           config.REDIS_PRIFIX + req.body.staffId,
           OTP,
@@ -36,7 +36,6 @@ module.exports = {
           }),
         });
     } catch (error) {
-      console.log(error);
       return res.status(400).send(formatError(error));
     }
   },
