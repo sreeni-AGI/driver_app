@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: driver-bff
+  labels:
+    app: driver-bff
+spec:
+  selector:
+    matchLabels:
+      app: driver-bff
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: driver-bff
+    spec:
+      containers:
+        - name: driver-bffcnt
+          image: HOST/backend/driverbff:{BUILD_ID}
+          ports:
+            - containerPort: 3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: driver-bff
+spec:
+  ports:
+    - port: 3001
+      targetPort: 3001
+  selector:
+    app: driver-bff
