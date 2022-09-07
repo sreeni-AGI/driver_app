@@ -30,6 +30,7 @@ module.exports = {
       pass: MONGO_PASS
     }
   },
+
   appConfig: async function () {
     Object.assign(this.config, {
       otp: {

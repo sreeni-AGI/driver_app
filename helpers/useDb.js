@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
-const {
-  config: { MONGO_URL, MAX_MONGO_RETRY, mongodbOptions },
-} = require('../config');
+const {config: {MONGO_URL}} = require('../config');
 const db = mongoose.connection;
-
-function connect() {
-  console.log('mongo connecting...');
-  mongoose.connect(MONGO_URL, mongodbOptions).catch(err => console.error('Mongo error.....', err.toString()));
+if(!db.readyState){
+  mongoose.connect(MONGO_URL);
 }
 
 if (!db.readyState) connect();
