@@ -6,6 +6,7 @@ const MongoTransport = (db, collection) =>
     db,
     collection,
     metaKey: 'meta',
+    handleExceptions: true
   });
 
 const routerLogger = (db, collection) =>
