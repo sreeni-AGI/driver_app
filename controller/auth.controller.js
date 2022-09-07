@@ -40,15 +40,22 @@ module.exports = {
     }
   },
   verifyOtp: async (req, res) => {
-    const tokendata = { staffId: req.body.staffId };
-    const isVerified = await client.get(config.REDIS_PRIFIX + req.body.staffId) == req.body.OTP;
+    let isVerified = await client.get(config.REDIS_PRIFIX + req.body.staffId) || false;
+    isVerified = isVerified == req.body.OTP;
     if (!isVerified) return res.status(401).json({ msg: config.otp.wrongOtp[req.language] });
-    client.del(config.REDIS_PRIFIX + req.body.staffId)
-    return res.json({
+    
+    const tokendata = { staffId: req.body.staffId};
+    const toSend = {
       accestoken: jwt.sign(tokendata, config.JWT_SECRET, { expiresIn: '1d' }),
       refreshToken: jwt.sign(tokendata, config.JWT_SECRET, {
         expiresIn: '14d',
       })
-    });
+    }
+    Object.assign(toSend, await driverService.details(
+      { 'STAFF NUMBER': parseInt(req.body.staffId) },
+      { _id: 0, Mobile: 1, NAME:1, Location: 1 }
+    ))    
+    client.del(config.REDIS_PRIFIX + req.body.staffId)
+    return res.json(toSend);
   },
 };
