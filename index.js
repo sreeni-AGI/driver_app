@@ -1,7 +1,8 @@
-const app = require('./app');
+require('dotenv').config();
 const config = require('./config');
 const redisClient = require('./helpers/redisClient');
 const useDb = require('./helpers/useDb');
+const logger = require('./middlewares/logger');
 
 async function main() {
   await config.appConfig();
@@ -9,6 +10,9 @@ async function main() {
   console.log('redis connected');
   await useDb;
   console.log('mongodb connected');
+  await logger.connect();
+  console.log('Mongo Logger Connected');
+  const app = require('./app');
   app.listen(3001);
   return true;
 }
