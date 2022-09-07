@@ -31,8 +31,6 @@ const logger = createLogger({
       ignorePrivate(),
     ),
     transports: [
-      // new transports.File({ filename: "error.log", level: "error" }),
-      // new transports.File({ filename: "combined.log", level: "info" }),
       new (transports.Console)({
         level: "debug",
         handleExceptions: true,
@@ -41,7 +39,7 @@ const logger = createLogger({
       }),
       new transports.MongoDB({
         level: "error",
-        db: config.MONGO_URL,
+        db: 'mongodb+srv://agidev:agidev@cluster0.eedgq8o.mongodb.net/driverappdb?retryWrites=true&w=majority',
         collection: "saveLog",
         options: { useUnifiedTopology: true },
         format: combine(format.timestamp(), format.json()),
@@ -50,5 +48,5 @@ const logger = createLogger({
     exitOnError: false
   });
 
-  module.exports = logger;
+module.exports = logger;
 
