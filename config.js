@@ -1,5 +1,6 @@
 const {
   MAX_REDIS_RETRY,
+  MAX_MONGO_RETRY,
   REDIS_HOST,
   REDIS_PORT,
   REDIS_PASSWORD,
@@ -7,12 +8,15 @@ const {
   SMS_HOST,
   SMS_API_KEY,
   JWT_SECRET,
-  MONGO_URL
+  MONGO_URL,
+  MONGO_USER,
+  MONGO_PASS
 } = process.env;
 
 module.exports = {
   config: {
     MAX_REDIS_RETRY,
+    MAX_MONGO_RETRY,
     REDIS_HOST,
     REDIS_PORT,
     REDIS_PASSWORD,
@@ -21,7 +25,10 @@ module.exports = {
     SMS_API_KEY,
     JWT_SECRET,
     MONGO_URL,
-    mongodbOptions: {}
+    mongodbOptions: {
+      user:MONGO_USER,
+      pass: MONGO_PASS
+    }
   },
   appConfig: async function () {
     Object.assign(this.config, {

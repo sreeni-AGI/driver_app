@@ -15,4 +15,7 @@ async function main() {
 
 main()
   .then(() => console.log('Server is running at http://localhost:3001'))
-  .catch(console.error);
+  .catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
