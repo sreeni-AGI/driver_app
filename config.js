@@ -7,7 +7,7 @@ const {
   SMS_HOST,
   SMS_API_KEY,
   JWT_SECRET,
-  MONGO_URL
+  MONGO_URL,
 } = process.env;
 
 module.exports = {
@@ -20,9 +20,9 @@ module.exports = {
     SMS_HOST,
     SMS_API_KEY,
     JWT_SECRET,
-    MONGO_URL,
-    mongodbOptions: {}
+    MONGO_URL
   },
+
   appConfig: async function () {
     Object.assign(this.config, {
       otp: {
