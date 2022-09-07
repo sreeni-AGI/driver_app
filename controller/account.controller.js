@@ -6,30 +6,23 @@ const collectionService = require('../services/collection.service');
 const client = require('../helpers/redisClient');
 
 module.exports = {
-    collection: async (req, res) => {
-      try {        
-        const collectionDate = req.body.date;
-
-        const token = req.headers.authorization;
-        if(token){
-        const decode = jwt.verify(token, config.JWT_SECRET);
-        
-        res.json({
-            login: true,
-            data: decode
-        });
-        }else{
-    
-            // Return response with error
-            res.json({
-                login: false,
-                data: 'error'
-            });
-        }
-
-          
-      } catch(error){
-        return res.status(400).send(formatError(error));
-      }
+  collection: async (req, res) => {
+    try {
+      const collectionDate = req.body.collectionDate;
+      const regex = /^\d{2}-\d{2}-\d{4}$/;
+      if (collectionDate.match(regex) === null)
+        return res
+          .status(404)
+          .json({ msg: 'Incorrect Date format' });
+      const driverId = req.driverId;
+      const collectiondDetails = await collectionService.getdetails(collectionDate, driverId);
+      if (!collectiondDetails)
+        return res
+          .status(404)
+          .json({ msg: 'Collection Details not found' });
+      return res.json(collectiondDetails.data);
+    } catch (error) {
+      return res.status(400).send(formatError(error));
     }
+  }
 };
