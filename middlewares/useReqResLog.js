@@ -1,4 +1,4 @@
-const winston = require('winston');
+const logger = require("../helpers/logger");
 
 module.exports = function(req, res, next) {
     const logMsg = {
@@ -19,6 +19,6 @@ module.exports = function(req, res, next) {
             'StackTrace': res.stack
         }
     };
-    winston.log('info', logMsg);
+    logger.info(logMsg)
     next();
 }

@@ -38,7 +38,7 @@ const logger = createLogger({
         format: combine(format.timestamp(), format.colorize(), format.simple()),
       }),
       new transports.MongoDB({
-        level: "error",
+        level: "debug",
         db: 'mongodb+srv://agidev:agidev@cluster0.eedgq8o.mongodb.net/driverappdb?retryWrites=true&w=majority',
         collection: "saveLog",
         options: { useUnifiedTopology: true },
