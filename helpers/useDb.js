@@ -6,7 +6,7 @@ const db = mongoose.connection;
 
 function connect() {
   console.log('mongo connecting...');
-  mongoose.connect(MONGO_URL, mongodbOptions).catch(err => console.error('Mongo error.....', err.toString()));
+  mongoose.connect(MONGO_URL, mongodbOptions).catch(err => console.error('Mongo error.....', err.toString(), err.code));
 }
 
 if (!db.readyState) connect();
