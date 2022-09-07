@@ -1,6 +1,7 @@
+const accountController = require('../controller/account.controller');
+
 const router = require('express').Router();
 
-router.post('/collections','');
-router.post('/outstanding','');
+router.post('/collections',accountController.collection);
 
 module.exports = router;
