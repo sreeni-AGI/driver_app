@@ -14,7 +14,7 @@ async function main() {
   console.log('Mongo Logger Connected');
   const app = require('./app');
   app.listen(3001);
-  return true;
+  return true; 
 }
 
 main()

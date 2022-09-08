@@ -4,13 +4,17 @@ const {
   REDIS_HOST,
   REDIS_PORT,
   REDIS_PASSWORD,
-  REDIS_PRIFIX,
+  REDIS_PREFIX,
   SMS_HOST,
   SMS_API_KEY,
   JWT_SECRET,
   MONGO_URL,
   MONGO_USER,
-  MONGO_PASS
+  MONGO_PASS,
+  DRIVER_API_URL,
+  DRIVER_API_KEY,
+  DRIVER_OUTSTANDING_API_KEY,
+  DRIVER_COLLECTION_API_KEY
 } = process.env;
 
 module.exports = {
@@ -20,16 +24,21 @@ module.exports = {
     REDIS_HOST,
     REDIS_PORT,
     REDIS_PASSWORD,
-    REDIS_PRIFIX,
+    REDIS_PREFIX,
     SMS_HOST,
     SMS_API_KEY,
     JWT_SECRET,
     MONGO_URL,
+    DRIVER_API_URL,
+    DRIVER_API_KEY,
+    DRIVER_OUTSTANDING_API_KEY,
+    DRIVER_COLLECTION_API_KEY,
     mongodbOptions: {
       user:MONGO_USER,
       pass: MONGO_PASS
     }
   },
+
   appConfig: async function () {
     Object.assign(this.config, {
       otp: {
@@ -43,6 +52,14 @@ module.exports = {
           EN: 'OTP Mismatch, Try Again',
         },
       },
+      auth: {
+        noToken: {
+          EN: 'Authorization token is required',
+        },
+        invalid: {
+          EN: 'Invalid token',
+        },
+      }
     });
   },
 };
