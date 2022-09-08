@@ -1,9 +1,7 @@
-const mongoose = require('mongoose');
-
+const driverModel = require("../model/driver.model");
 module.exports = {
-  details: async (filter, projection = {}) => {
-    return mongoose.connection.db
-      .collection('drivers')
-      .findOne(filter, { projection });
+  findOne: async (filter, projection = {}) => {
+    Object.assign(filter, {isDeleted: false})
+    return driverModel.findOne(filter, projection);
   },
 };
