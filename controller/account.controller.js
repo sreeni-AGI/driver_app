@@ -2,8 +2,8 @@ const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const { config } = require('../config');
 const { formatError } = require('../helpers/utils');
-const collectionService = require('../services/collection.service');
 const client = require('../helpers/redisClient');
+const accountService = require('../services/account.service');
 
 module.exports = {
   collection: async (req, res) => {
@@ -15,12 +15,24 @@ module.exports = {
           .status(404)
           .json({ msg: 'Incorrect Date format' });
       const driverId = req.driverId;
-      const collectiondDetails = await collectionService.getdetails(collectionDate, driverId);
-      if (!collectiondDetails)
+      const collectionDetails = await accountService.getCollection(collectionDate, driverId);
+      if (!collectionDetails)
         return res
           .status(404)
           .json({ msg: 'Collection Details not found' });
-      return res.json(collectiondDetails.data);
+      return res.json(collectionDetails.data);
+    } catch (error) {
+      return res.status(400).send(formatError(error));
+    }
+  },
+  outstanding: async (req, res) => {
+    try {
+      const { data: outstandingDetails } = await accountService.getOutstanding(req.driverId);
+      if (!outstandingDetails)
+        return res
+          .status(404)
+          .json({ msg: 'Outstanding details not found' });
+      return res.json(outstandingDetails);
     } catch (error) {
       return res.status(400).send(formatError(error));
     }

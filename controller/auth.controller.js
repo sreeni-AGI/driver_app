@@ -17,17 +17,17 @@ module.exports = {
         return res
           .status(404)
           .json({ msg: 'No Driver Found with this Staff Id' });
-      let OTP = await client.get(config.REDIS_PRIFIX + req.body.staffId);
+      let OTP = await client.get(config.REDIS_PREFIX + req.body.staffId);
       if (!OTP) {
         OTP = _.random(9999, 99999);
         await client.set(
-          config.REDIS_PRIFIX + req.body.staffId,
+          config.REDIS_PREFIX + req.body.staffId,
           OTP,
           'ex',
           300
         );
       }
-      const toSend = _.template(config.otp.sms[req.language])({ OTP });
+      const toSend = _.template(config.otp.sms[req.language]|| config.otp.sms['EN'])({ OTP });
       const isSent = await smsService.send(driver.mobileNumber.toString(), toSend);
       if (isSent)
         return res.json({
@@ -40,7 +40,7 @@ module.exports = {
     }
   },
   verifyOtp: async (req, res) => {
-    let isVerified = await client.get(config.REDIS_PRIFIX + req.body.staffId) || false;
+    let isVerified = await client.get(config.REDIS_PREFIX + req.body.staffId) || false;
     isVerified = isVerified == req.body.OTP;
     if (!isVerified) return res.status(401).json({ msg: config.otp.wrongOtp[req.language] });
     
@@ -55,7 +55,7 @@ module.exports = {
       { 'STAFF NUMBER': parseInt(req.body.staffId) },
       { _id: 0, Mobile: 1, NAME:1, Location: 1 }
     ))    
-    client.del(config.REDIS_PRIFIX + req.body.staffId)
+    client.del(config.REDIS_PREFIX + req.body.staffId)
     return res.json(toSend);
   },
 };
