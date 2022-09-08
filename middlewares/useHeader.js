@@ -4,7 +4,7 @@ const { formatError } = require('../helpers/utils');
 
 module.exports = (req, res, next) => {
   req.language = req.headers['accept-language']?.toUpperCase().slice(0, 2) || 'EN';
-  const authIgnored = ['/api/auth'].find(e => req.path.startsWith(e));
+  const authIgnored = ['/auth'].find(e => req.path.startsWith(e));
   if (!authIgnored) {
     try {
       const token = req.headers['authorization'].split(' ')[1];
