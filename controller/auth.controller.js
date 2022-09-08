@@ -9,7 +9,7 @@ const client = require('../helpers/redisClient');
 module.exports = {
   sendOtp: async (req, res) => {
     try {
-      const driver = await driverService.details(
+      const driver = await driverService.findOne(
         { 'STAFF NUMBER': parseInt(req.body.staffId) },
         { mobileNumber: '$Mobile', _id: 0, Mobile: 1 }
       );
@@ -51,7 +51,7 @@ module.exports = {
         expiresIn: '14d',
       })
     }
-    Object.assign(toSend, await driverService.details(
+    Object.assign(toSend, await driverService.findOne(
       { 'STAFF NUMBER': parseInt(req.body.staffId) },
       { _id: 0, Mobile: 1, NAME:1, Location: 1 }
     ))    
