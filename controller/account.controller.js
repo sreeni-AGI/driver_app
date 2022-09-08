@@ -1,7 +1,5 @@
 const { formatError } = require('../helpers/utils');
-// const client = require('../helpers/redisClient');
 const accountService = require('../services/account.service');
-// const collectionService = require('../services/collection.service');
 
 module.exports = {
   collection: async (req, res) => {
