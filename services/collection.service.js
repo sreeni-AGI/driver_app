@@ -1,5 +1,4 @@
 const axios = require('axios');
-const { collection } = require('../controller/account.controller');
 const { config } = require('../config');
 
 module.exports = {
