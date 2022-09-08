@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
           .status(401)
           .json({ msg: 'authorization token is required' });
       const tokenData = jwt.verify(token, config.JWT_SECRET);
-      req.driverId = tokenData.staffId;
+      req.staffId = tokenData.staffId;
     } catch (error) {
       return res.status(400).send(formatError(error));
     }

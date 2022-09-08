@@ -10,20 +10,19 @@ module.exports = {
         return res
           .status(404)
           .json({ msg: 'Incorrect Date format' });
-      const driverId = req.driverId;
-      const collectionDetails = await accountService.getCollection(collectionDate, driverId);
+      const {data:collectionDetails} = await accountService.getCollection(collectionDate, req.staffId);
       if (!collectionDetails)
         return res
           .status(404)
           .json({ msg: 'Collection Details not found' });
-      return res.json(collectionDetails.data);
+      return res.json(collectionDetails);
     } catch (error) {
       return res.status(400).send(formatError(error));
     }
   },
   outstanding: async (req, res) => {
     try {
-      const { data: outstandingDetails } = await accountService.getOutstanding(req.driverId);
+      const { data: outstandingDetails } = await accountService.getOutstanding(req.staffId);
       if (!outstandingDetails)
         return res
           .status(404)
