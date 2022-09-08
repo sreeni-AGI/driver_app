@@ -1,7 +1,7 @@
 {
-  "name": "driver_app",
+  "name": "buddy",
   "version": "1.0.0",
-  "description": "BFF for car taxi",
+  "description": "BFF for car taxi buddy app",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index",
