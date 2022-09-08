@@ -9,7 +9,7 @@ module.exports = {
           }
           return axios.post(config.DRIVER_API_URL+"/Collections/Collections/", collectionPayload, {
               headers: {
-                'x-api-key': config.DRIVER_API_KEY,
+                'x-api-key': config.DRIVER_COLLECTION_API_KEY,
               },
             })
           }  
