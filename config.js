@@ -13,7 +13,8 @@ const {
   MONGO_PASS,
   DRIVER_API_URL,
   DRIVER_API_KEY,
-  OUTSTANDING_DRIVER_API_KEY
+  DRIVER_OUTSTANDING_API_KEY,
+  DRIVER_COLLECTION_API_KEY
 } = process.env;
 
 module.exports = {
@@ -30,7 +31,8 @@ module.exports = {
     MONGO_URL,
     DRIVER_API_URL,
     DRIVER_API_KEY,
-    OUTSTANDING_DRIVER_API_KEY,
+    DRIVER_OUTSTANDING_API_KEY,
+    DRIVER_COLLECTION_API_KEY,
     mongodbOptions: {
       user:MONGO_USER,
       pass: MONGO_PASS
@@ -50,6 +52,14 @@ module.exports = {
           EN: 'OTP Mismatch, Try Again',
         },
       },
+      auth: {
+        noToken: {
+          EN: 'Authorization token is required',
+        },
+        invalid: {
+          EN: 'Invalid token',
+        },
+      }
     });
   },
 };

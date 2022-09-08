@@ -15,7 +15,7 @@ module.exports = {
       collectionPayload,
       {
         headers: {
-          "x-api-key": config.DRIVER_API_KEY,
+          "x-api-key": config.DRIVER_COLLECTION_API_KEY,
         },
       }
     );
@@ -25,7 +25,7 @@ module.exports = {
       config.DRIVER_API_URL + this.accountType.OUTSTANDING, { driverId },
       {
         headers: {
-          "x-api-key": config.OUTSTANDING_DRIVER_API_KEY
+          "x-api-key": config.DRIVER_OUTSTANDING_API_KEY
         },
       }
     );

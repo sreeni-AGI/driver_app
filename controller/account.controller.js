@@ -1,16 +1,14 @@
-const _ = require('lodash');
-const jwt = require('jsonwebtoken');
-const { config } = require('../config');
 const { formatError } = require('../helpers/utils');
-const client = require('../helpers/redisClient');
+// const client = require('../helpers/redisClient');
 const accountService = require('../services/account.service');
+// const collectionService = require('../services/collection.service');
 
 module.exports = {
   collection: async (req, res) => {
     try {
       const collectionDate = req.body.collectionDate;
       const regex = /^\d{2}-\d{2}-\d{4}$/;
-      if (collectionDate.match(regex) === null)
+      if (!collectionDate.match(regex))
         return res
           .status(404)
           .json({ msg: 'Incorrect Date format' });
