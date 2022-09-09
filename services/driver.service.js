@@ -1,7 +1,10 @@
 const driverModel = require("../model/driver.model");
 module.exports = {
-  findOne: async (filter, projection = {}) => {
-    Object.assign(filter, {isDeleted: false})
+  findOne: (filter, projection = {}) => {
+    Object.assign(filter, { isDeleted: false })
     return driverModel.findOne(filter, projection);
   },
+  create: driverData => driverModel.create(driverData),
+  updateOne: (staffId, driverData) => driverModel.replaceOne({ staffId }, driverData),
+  deleteOne: staffId => driverModel.updateOne({ staffId }, { $set: { isDeleted: true } })
 };
