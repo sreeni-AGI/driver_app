@@ -2,7 +2,12 @@ const jwt = require('jsonwebtoken');
 const { config } = require('../config');
 
 module.exports = (req, res, next) => {
-  req.language = req.headers['accept-language']?.toUpperCase().slice(0, 2) || 'EN';
+  const lang = req.headers['accept-language']?.toUpperCase().slice(0, 2) || "EN";
+  config.otp.sms.hasOwnProperty(lang) 
+    || config.otp.client.hasOwnProperty(lang) 
+      || config.otp.wrongOtp.hasOwnProperty(lang)
+        ? req.language = lang 
+          : req.language = "EN" 
   const authIgnored = ['/auth'].find(e => req.path.startsWith(e));
   if (!authIgnored) {
     try {
