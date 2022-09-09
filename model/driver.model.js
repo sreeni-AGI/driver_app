@@ -48,7 +48,7 @@ const driverSchemaRule = {
     enum:['Day', 'Night'],
     required: true,
   },
-  mobileNo: {
+  mobileNumber: {
     type: Number,
     required: true,
   },
