@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const logger = require('./middlewares/logger');
+const utils = require('./helpers/utils');
+const { driverSchemaRule } = require('./model/driver.model');
 const app = express();
 
 app.use(cors());
@@ -10,7 +12,26 @@ app.use(logger.routerLogger());
 
 app.use('/api', require('./routes'));
 
-app.get('/', (req, res) => res.send('BFF for car and taxi'));
+app.get('/', (req, res) => {
+  const toSend = {
+    version: 1.0,
+    baseEndPoint: '/api',
+    driver: {
+      path: '/driver',
+      protected: 'x-api-key',
+      methods: {
+        get: ['/', '/:staffId'],
+        post: ['/'],
+        put: ['/:staffId'],
+        patch: ['/:staffId'],
+        delete: ['/:staffId'],
+      },
+      query: ['filter', 'projection'],
+      schema: utils.schemaDoc(driverSchemaRule),
+    },
+  };
+  return res.json(toSend);
+});
 
 app.use(logger.errorLogger());
 

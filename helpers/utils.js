@@ -20,5 +20,25 @@ module.exports = {
     referenceId: '23454567',
     senderId: '',
   }),
-  filterUndeletedMongooseHooks: schema => ['find'].forEach(e => schema.pre(e, function(){this._conditions.isDeleted = false}))
+  filterUndeletedMongooseHooks: (schema) =>
+    ['find'].forEach((e) =>
+      schema.pre(e, function () {
+        this._conditions.isDeleted = false;
+      })
+    ),
+  schemaDoc: function (schema) {
+    if (Array.isArray(schema)) return schema.map(this.schemaDoc);
+    for (const key in schema) {
+      if (['isDeleted'].includes(key)) continue;
+      let val = schema[key];
+      if (typeof val == 'function') val = { type: typeof val() };
+      else if (Array.isArray(val)) val = val.map(this.schemaDoc);
+      else {
+        val.type = typeof val.type();
+        if(typeof val.required == 'function') val.required = true
+      }
+      schema[key] = val;
+    }
+    return schema;
+  },
 };
