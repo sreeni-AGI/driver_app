@@ -20,4 +20,5 @@ module.exports = {
     referenceId: '23454567',
     senderId: '',
   }),
+  filterUndeletedMongooseHooks: schema => ['find'].forEach(e => schema.pre(e, function(){this._conditions.isDeleted = false}))
 };
