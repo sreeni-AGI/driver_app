@@ -4,17 +4,16 @@ const accountService = require('../services/account.service');
 module.exports = {
   collection: async (req, res) => {
     try {
-      const collectionDate = req.body.collectionDate;
+      const collectionDate = req.query.collectionDate;
       const regex = /^\d{2}-\d{2}-\d{4}$/;
       if (!collectionDate.match(regex))
-        return res
-          .status(404)
-          .json({ msg: 'Incorrect Date format' });
-      const {data:collectionDetails} = await accountService.getCollection(collectionDate, req.staffId);
+        return res.status(404).json({ msg: 'Incorrect Date format' });
+      const { data: collectionDetails } = await accountService.getCollection(
+        collectionDate,
+        req.staffId
+      );
       if (!collectionDetails)
-        return res
-          .status(404)
-          .json({ msg: 'Collection Details not found' });
+        return res.status(404).json({ msg: 'Collection Details not found' });
       return res.json(collectionDetails);
     } catch (error) {
       return res.status(400).send(formatError(error));
@@ -22,14 +21,14 @@ module.exports = {
   },
   outstanding: async (req, res) => {
     try {
-      const { data: outstandingDetails } = await accountService.getOutstanding(req.staffId);
+      const { data: outstandingDetails } = await accountService.getOutstanding(
+        req.staffId
+      );
       if (!outstandingDetails)
-        return res
-          .status(404)
-          .json({ msg: 'Outstanding details not found' });
+        return res.status(404).json({ msg: 'Outstanding details not found' });
       return res.json(outstandingDetails);
     } catch (error) {
       return res.status(400).send(formatError(error));
     }
-  }
+  },
 };
