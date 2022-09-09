@@ -42,7 +42,7 @@ module.exports = {
   verifyOtp: async (req, res) => {
     let isVerified = await client.get(config.REDIS_PREFIX + req.body.staffId) || false;
     isVerified = isVerified == req.body.OTP;
-    if (!isVerified) return res.status(401).json({ msg: config.otp.wrongOtp[req.language] });
+    if (!isVerified) return res.status(400).json({ msg: config.otp.wrongOtp[req.language] });
     
     const tokendata = { staffId: req.body.staffId};
     const toSend = {
