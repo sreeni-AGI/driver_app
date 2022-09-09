@@ -22,14 +22,14 @@ spec:
     spec:
       containers:
         - name: driver-bffcnt
-          image: HOST/backend/driverbff:{BUILD_ID}
+          image: 997641515580.dkr.ecr.me-south-1.amazonaws.com/buddyapp-dev:latest
           ports:
             - containerPort: 3001
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: driver-bff
+  name: buddy
 spec:
   ports:
     - port: 3001
