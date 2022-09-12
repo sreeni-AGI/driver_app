@@ -43,26 +43,6 @@ module.exports = {
 
   appConfig: async function () {
     const configData = await configModel.find().lean();
-    Object.assign(this.config, {
-      otp: {
-        sms: {
-          EN: 'OTP for car taxi app login is ${OTP}',
-        },
-        client: {
-          EN: 'Enter the OTP which is send to your registered mobile number *****${mobileLast4digit}',
-        },
-        wrongOtp: {
-          EN: 'OTP Mismatch, Try Again',
-        },
-      },
-      auth: {
-        noToken: {
-          EN: 'Authorization token is required',
-        },
-        invalid: {
-          EN: 'Invalid token',
-        },
-      }
-    });
+    Object.assign(this.config, configData);
   },
 };

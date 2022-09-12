@@ -41,5 +41,5 @@ module.exports = {
     }
     return schema;
   },
-  languageMapper: (langData, lang='EN')=> langData[lang] || langData['EN']
+  languageMapper: (langData, lang='EN') => langData[lang] || langData['EN']
 };
