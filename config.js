@@ -1,6 +1,7 @@
 const { configModel } = require("./model");
 
 const {
+  NODE_ENV,
   MAX_REDIS_RETRY,
   MAX_MONGO_RETRY,
   REDIS_HOST,
@@ -14,13 +15,13 @@ const {
   MONGO_USER,
   MONGO_PASS,
   DRIVER_API_URL,
-  DRIVER_API_KEY,
   DRIVER_OUTSTANDING_API_KEY,
   DRIVER_COLLECTION_API_KEY
 } = process.env;
 
 module.exports = {
   config: {
+    isDevelopment: NODE_ENV === 'dev',
     MAX_REDIS_RETRY,
     MAX_MONGO_RETRY,
     REDIS_HOST,
@@ -32,7 +33,6 @@ module.exports = {
     JWT_SECRET,
     MONGO_URL,
     DRIVER_API_URL,
-    DRIVER_API_KEY,
     DRIVER_OUTSTANDING_API_KEY,
     DRIVER_COLLECTION_API_KEY,
     mongodbOptions: {
