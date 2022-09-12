@@ -1,6 +1,7 @@
 const { configModel } = require("./model");
 
 const {
+  NODE_ENV,
   MAX_REDIS_RETRY,
   MAX_MONGO_RETRY,
   REDIS_HOST,
@@ -20,6 +21,7 @@ const {
 
 module.exports = {
   config: {
+    isDevelopment: NODE_ENV === 'dev',
     MAX_REDIS_RETRY,
     MAX_MONGO_RETRY,
     REDIS_HOST,
