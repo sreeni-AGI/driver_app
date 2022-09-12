@@ -1,5 +1,8 @@
 module.exports = {
-  formatError: (err) => (err.message ? err.message : err),
+  formatError: (err) => ({ 
+    status: err.code, 
+    message: err.message ? err.message : err 
+  }),
   smsPayload: (mobileNumber, message) => ({
     dlrUrl: '',
     mobileNumbers: {

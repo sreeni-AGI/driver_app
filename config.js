@@ -1,4 +1,4 @@
-const { configModel } = require("./model");
+const { configModel } = require('./model');
 
 const {
   NODE_ENV,
@@ -36,13 +36,13 @@ module.exports = {
     DRIVER_OUTSTANDING_API_KEY,
     DRIVER_COLLECTION_API_KEY,
     mongodbOptions: {
-      user:MONGO_USER,
+      user: MONGO_USER,
       pass: MONGO_PASS
     }
   },
 
   appConfig: async function () {
-    const configData = await configModel.find().lean();
+    const configData = await configModel.find({ __v : 0 }).lean();
     Object.assign(this.config, configData);
   },
 };

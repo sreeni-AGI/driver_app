@@ -1,7 +1,11 @@
-const mongoose = require("mongoose");
-const { driverSchema } = require("./driver.schema");
+const mongoose = require('mongoose');
+const { Schema, model } = mongoose;
+const { driverSchema } = require('./driver.schema');
 
 module.exports = {
-  driverModel: mongoose.model("drivernew", driverSchema),
-  configModel: mongoose.model("config",  { collection: "config", strict: false }),
+  driverModel: model('drivernew', driverSchema),
+  configModel: model(
+    'config',
+    new Schema({}, { collection: 'config', strict: false })
+  ),
 };
