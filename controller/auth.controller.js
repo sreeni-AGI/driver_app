@@ -10,7 +10,7 @@ module.exports = {
   sendOtp: async (req, res) => {
     try {
       const driver = await driverService.findOne(
-        { 'STAFF NUMBER': parseInt(req.body.staffId) },
+        { staffId: parseInt(req.body.staffId) },
         { mobileNumber: 1, _id: 0 }
       );
       if (!driver)
