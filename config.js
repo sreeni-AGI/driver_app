@@ -1,3 +1,5 @@
+const { configModel } = require("./model");
+
 const {
   MAX_REDIS_RETRY,
   MAX_MONGO_RETRY,
@@ -40,6 +42,7 @@ module.exports = {
   },
 
   appConfig: async function () {
+    const configData = await configModel.find().lean();
     Object.assign(this.config, {
       otp: {
         sms: {
