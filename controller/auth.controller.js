@@ -53,7 +53,7 @@ module.exports = {
       })
     }
     Object.assign(toSend, await driverService.findOne(
-      { 'STAFF NUMBER': parseInt(req.body.staffId) },
+      { 'staffId': parseInt(req.body.staffId) },
       { _id: 0, mobileNumber: 1, name: 1, location: 1 }
     ))    
     client.del(config.REDIS_PREFIX + req.body.staffId)

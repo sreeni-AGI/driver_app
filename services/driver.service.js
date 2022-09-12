@@ -6,3 +6,4 @@ module.exports = {
   updateOne: (staffId, driverData) => driverModel.replaceOne({ staffId }, driverData),
   deleteOne: staffId => driverModel.updateOne({ staffId }, { $set: { isDeleted: true } })
 };
+
