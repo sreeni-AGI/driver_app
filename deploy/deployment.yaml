@@ -24,6 +24,7 @@ spec:
       containers:
         - name: driver-bffcnt
           image: 997641515580.dkr.ecr.me-south-1.amazonaws.com/buddyapp:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3001
           env:
@@ -47,11 +48,6 @@ spec:
                 configMapKeyRef:
                   name: buddy-bff
                   key: REDIS_PORT
-            - name: REDIS_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: buddy-bff
-                  key: REDIS_PORT
             - name: REDIS_PREFIX
               valueFrom:
                 configMapKeyRef:
@@ -69,12 +65,12 @@ spec:
                   key: SMS_HOST
             - name: SMS_API_KEY
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: buddy-bff
                   key: SMS_API_KEY
             - name: JWT_SECRET
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: buddy-bff
                   key: JWT_SECRET
             - name: MONGO_URL
@@ -89,17 +85,17 @@ spec:
                   key: MONGO_USER
             - name: MONGO_PASS
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: buddy-bff
                   key: MONGO_PASS
             - name: DRIVER_OUTSTANDING_API_KEY
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: buddy-bff
                   key: DRIVER_OUTSTANDING_API_KEY
             - name: DRIVER_COLLECTION_API_KEY
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: buddy-bff
                   key: DRIVER_COLLECTION_API_KEY
 ---
