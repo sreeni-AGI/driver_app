@@ -5,10 +5,7 @@ module.exports = {
     mobileNumbers: {
       messageParams: [
         {
-          mobileNumber,
-          params: {
-            message,
-          },
+          mobileNumber
         },
       ],
     },
@@ -16,7 +13,7 @@ module.exports = {
     userName: '',
     password: '',
     priority: '0',
-    message: '{message}',
+    message: message,
     referenceId: '23454567',
     senderId: '',
   }),
