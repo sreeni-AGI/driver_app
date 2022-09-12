@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const { config } = require('../config');
-const { formatError } = require('../helpers/utils');
+const { formatError, languageMapper } = require('../helpers/utils');
 const driverService = require('../services/driver.service');
 const smsService = require('../services/sms.service');
 const client = require('../helpers/redisClient');
@@ -27,7 +27,7 @@ module.exports = {
           300
         );
       }
-      const toSend = _.template(config.otp.sms[req.language]|| config.otp.sms['EN'])({ OTP });
+      const toSend = _.template(languageMapper(config.otp.sms, req.language))({ OTP });
       const isSent = await smsService.send(driver.mobileNumber.toString(), toSend);
       if (isSent)
         return res.json({
