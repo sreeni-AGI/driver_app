@@ -1,6 +1,8 @@
 const driverController = require('../controller/driver.controller');
+const usePublic = require('../middlewares/usePublic');
 const router = require('express').Router();
 
+router.use(usePublic);
 
 router.get('/', driverController.find);
 router.get('/:staffId', driverController.findOne);

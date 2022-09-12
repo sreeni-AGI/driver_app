@@ -16,7 +16,8 @@ const {
   MONGO_PASS,
   DRIVER_API_URL,
   DRIVER_OUTSTANDING_API_KEY,
-  DRIVER_COLLECTION_API_KEY
+  DRIVER_COLLECTION_API_KEY,
+  DRIVER_X_API_KEY
 } = process.env;
 
 module.exports = {
@@ -35,6 +36,7 @@ module.exports = {
     DRIVER_API_URL,
     DRIVER_OUTSTANDING_API_KEY,
     DRIVER_COLLECTION_API_KEY,
+    DRIVER_X_API_KEY,
     mongodbOptions: {
       user:MONGO_USER,
       pass: MONGO_PASS
