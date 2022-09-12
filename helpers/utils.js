@@ -1,3 +1,5 @@
+const _  = require('lodash');
+
 module.exports = {
   formatError: (err) => (err.message ? err.message : err),
   smsPayload: (mobileNumber, message) => ({
@@ -27,7 +29,9 @@ module.exports = {
       })
     ),
   schemaDoc: function (schema) {
+    schema = _.cloneDeep(schema);
     if (Array.isArray(schema)) return schema.map(this.schemaDoc);
+    const toReturn = {};
     for (const key in schema) {
       if (['isDeleted'].includes(key)) continue;
       let val = schema[key];
