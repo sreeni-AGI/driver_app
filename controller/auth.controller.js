@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const { config } = require('../config');
-const { formatError } = require('../helpers/utils');
+const { formatError, languageMapper } = require('../helpers/utils');
 const driverService = require('../services/driver.service');
 const smsService = require('../services/sms.service');
 const client = require('../helpers/redisClient');
@@ -10,8 +10,8 @@ module.exports = {
   sendOtp: async (req, res) => {
     try {
       const driver = await driverService.findOne(
-        { 'STAFF NUMBER': parseInt(req.body.staffId) },
-        { mobileNumber: '$Mobile', _id: 0, Mobile: 1 }
+        { staffId: parseInt(req.body.staffId) },
+        { mobileNumber: 1, _id: 0 }
       );
       if (!driver)
         return res
@@ -27,7 +27,7 @@ module.exports = {
           300
         );
       }
-      const toSend = _.template(config.otp.sms[req.language]|| config.otp.sms['EN'])({ OTP });
+      const toSend = _.template(languageMapper(config.otp.sms, req.language))({ OTP });
       const isSent = await smsService.send(driver.mobileNumber.toString(), toSend);
       if (isSent)
         return res.json({
@@ -53,7 +53,7 @@ module.exports = {
     }
     Object.assign(toSend, await driverService.findOne(
       { 'STAFF NUMBER': parseInt(req.body.staffId) },
-      { _id: 0, Mobile: 1, NAME:1, Location: 1 }
+      { _id: 0, mobileNumber: 1, name: 1, location: 1 }
     ))    
     client.del(config.REDIS_PREFIX + req.body.staffId)
     return res.json(toSend);

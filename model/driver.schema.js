@@ -48,7 +48,7 @@ const driverSchemaRule = {
     enum:['Day', 'Night'],
     required: true,
   },
-  mobileNo: {
+  mobileNumber: {
     type: Number,
     required: true,
   },
@@ -73,5 +73,4 @@ utils.filterUndeletedMongooseHooks(driverSchema);
 module.exports = {
   driverSchemaRule,
   driverSchema,
-  driverModel: mongoose.model('drivernew', driverSchema),
 };
