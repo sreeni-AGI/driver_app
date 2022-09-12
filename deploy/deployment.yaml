@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: buddy-bff
+  namespace: default-dev
   labels:
     app: buddy-bff
 spec:
@@ -106,6 +107,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: buddy
+  namespace: default-dev
 spec:
   ports:
     - port: 3001
