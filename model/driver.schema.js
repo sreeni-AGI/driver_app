@@ -73,5 +73,4 @@ utils.filterUndeletedMongooseHooks(driverSchema);
 module.exports = {
   driverSchemaRule,
   driverSchema,
-  driverModel: mongoose.model('drivernew', driverSchema),
 };
