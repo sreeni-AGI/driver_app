@@ -45,10 +45,10 @@ module.exports = {
     isVerified = isVerified == req.body.OTP;
     if (!isVerified) return res.status(400).json({ msg: languageMapper(config.otp.wrongOtp, req.language) });
     
-    const tokendata = { staffId: req.body.staffId};
+    const tokenData = { staffId: req.body.staffId};
     const toSend = {
-      accestoken: jwt.sign(tokendata, config.JWT_SECRET, { expiresIn: '1d' }),
-      refreshToken: jwt.sign(tokendata, config.JWT_SECRET, {
+      accessToken: jwt.sign(tokenData, config.JWT_SECRET, { expiresIn: '1d' }),
+      refreshToken: jwt.sign(tokenData, config.JWT_SECRET, {
         expiresIn: '14d',
       })
     }
