@@ -98,11 +98,16 @@ spec:
                 configMapKeyRef:
                   name: buddy-bff
                   key: DRIVER_API_URL
-            - name: DRIVER_X_API_KEY
+            - name: BUDDY_BFF_KEY
               valueFrom:
                 secretKeyRef:
                   name: buddy-bff
-                  key: DRIVER_X_API_KEY
+                  key: BUDDY_BFF_KEY
+            - name: MGW_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: buddy-bff
+                  key: MGW_KEY
 ---
 apiVersion: v1
 kind: Service

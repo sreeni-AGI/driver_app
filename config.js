@@ -15,7 +15,7 @@ const {
   MONGO_USER,
   MONGO_PASS,
   DRIVER_API_URL,
-  DRIVER_X_API_KEY,  
+  MGW_KEY,  
 } = process.env;
 
 module.exports = {
@@ -38,7 +38,7 @@ module.exports = {
     },
     mgwConfig:{
       headers:{
-        "x-api-key": DRIVER_X_API_KEY
+        "x-api-key": MGW_KEY
       }      
     }
   },
