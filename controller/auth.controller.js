@@ -60,7 +60,7 @@ module.exports = {
       client.del(config.REDIS_PREFIX + req.body.staffId)
       return res.json(toSend);
     } catch (error) {
-      return res.json({msg: formatError(error)})
+      return res.status(400).json({msg: formatError(error)})
     }
 
   },

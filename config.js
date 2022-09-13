@@ -18,7 +18,8 @@ const {
   AWS_ACCESS_KEY_ID,
   AWS_SECRET_ACCESS_KEY,
   AWS_BUCKET,
-  MGW_KEY,  
+  MGW_KEY,
+  BUDDY_BFF_KEY
 } = process.env;
 
 module.exports = {
@@ -38,6 +39,7 @@ module.exports = {
     AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY,
     AWS_BUCKET,
+    BUDDY_BFF_KEY,
     mongodbOptions: {
       user: MONGO_USER,
       pass: MONGO_PASS,
