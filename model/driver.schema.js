@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const utils = require('../helpers/utils');
+
 const driverSchemaRule = {
   staffId: {
     type: Number,

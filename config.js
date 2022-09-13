@@ -1,4 +1,4 @@
-const { configModel } = require("./model");
+const { configModel } = require('./model');
 
 const {
   NODE_ENV,
@@ -15,7 +15,6 @@ const {
   MONGO_USER,
   MONGO_PASS,
   DRIVER_API_URL,
-  DRIVER_API_KEY,
   DRIVER_X_API_KEY,  
 } = process.env;
 
@@ -33,41 +32,19 @@ module.exports = {
     JWT_SECRET,
     MONGO_URL,
     DRIVER_API_URL,
-    DRIVER_API_KEY,
-    DRIVER_X_API_KEY,
     mongodbOptions: {
-      user:MONGO_USER,
+      user: MONGO_USER,
       pass: MONGO_PASS
     },
     mgwConfig:{
       headers:{
-        "x-api-key":DRIVER_API_KEY
+        "x-api-key": DRIVER_X_API_KEY
       }      
     }
   },
 
   appConfig: async function () {
-    const configData = await configModel.find().lean();
-    Object.assign(this.config, {
-      otp: {
-        sms: {
-          EN: 'OTP for car taxi app login is ${OTP}',
-        },
-        client: {
-          EN: 'Enter the OTP which is send to your registered mobile number *****${mobileLast4digit}',
-        },
-        wrongOtp: {
-          EN: 'OTP Mismatch, Try Again',
-        },
-      },
-      auth: {
-        noToken: {
-          EN: 'Authorization token is required',
-        },
-        invalid: {
-          EN: 'Invalid token',
-        },
-      }
-    });
+    const configData = await configModel.findOne({ __v : 0 }).lean();
+    Object.assign(this.config, configData);
   },
 };

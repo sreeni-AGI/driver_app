@@ -1,5 +1,10 @@
+const _  = require('lodash');
+
 module.exports = {
-  formatError: (err) => (err.message ? err.message : err),
+  formatError: (err) => ({ 
+    status: err.code, 
+    message: err.message ? err.message : err 
+  }),
   smsPayload: (mobileNumber, message) => ({
     mobileNumbers: {
       messageParams: [
@@ -19,7 +24,9 @@ module.exports = {
       })
     ),
   schemaDoc: function (schema) {
+    schema = _.cloneDeep(schema);
     if (Array.isArray(schema)) return schema.map(this.schemaDoc);
+    const toReturn = {};
     for (const key in schema) {
       if (['isDeleted'].includes(key)) continue;
       let val = schema[key];
@@ -33,5 +40,12 @@ module.exports = {
     }
     return schema;
   },
-  languageMapper: (langData, lang='EN')=> langData[lang] || langData['EN']
+  languageMapper: (langData, lang='EN') => langData[lang] || langData['EN'],
+  formatQuery: payload => {
+    let toReturn = '?';
+    for (const key in payload) {
+      toReturn += `${key}=${payload[key]}&`
+    }
+    return toReturn.slice(0, -1);
+  }
 };

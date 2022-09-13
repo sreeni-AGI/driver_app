@@ -30,7 +30,19 @@ module.exports = {
 
   updateOne: async (req, res) => {
     try {
+      req.body.staffId = parseInt(req.params.staffId);
       const driver = await driverService.updateOne(
+        req.body.staffId,
+        req.body
+      );
+      return res.status(202).json(driver);
+    } catch (error) {
+      return res.status(400).send(formatError(error));
+    }
+  },
+  patchOne: async(req, res)=>{
+    try {
+      const driver = await driverService.patchOne(
         parseInt(req.params.staffId),
         req.body
       );
