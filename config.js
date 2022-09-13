@@ -15,7 +15,8 @@ const {
   MONGO_USER,
   MONGO_PASS,
   DRIVER_API_URL,
-  MGW_KEY,  
+  MGW_KEY,
+  BUDDY_BFF_KEY
 } = process.env;
 
 module.exports = {
@@ -32,6 +33,7 @@ module.exports = {
     JWT_SECRET,
     MONGO_URL,
     DRIVER_API_URL,
+    BUDDY_BFF_KEY,
     mongodbOptions: {
       user: MONGO_USER,
       pass: MONGO_PASS
