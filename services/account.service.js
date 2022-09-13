@@ -1,10 +1,10 @@
-const axios = require("axios");
-const { config } = require("../config");
+const axios = require('axios');
+const { config } = require('../config');
 
 module.exports = {
   accountType: {
-    COLLECTION: "/Collections/Collections/",
-    OUTSTANDING: "/Outstanding/Outstanding/"
+    COLLECTION: '/Collections/Collections/',
+    OUTSTANDING: '/Outstanding/Outstanding/'
   },
   getCollection: function(date, driverId) {
     const collectionPayload = {

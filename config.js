@@ -1,4 +1,4 @@
-const { configModel } = require("./model");
+const { configModel } = require('./model');
 
 const {
   NODE_ENV,
@@ -38,33 +38,13 @@ module.exports = {
     DRIVER_COLLECTION_API_KEY,
     DRIVER_X_API_KEY,
     mongodbOptions: {
-      user:MONGO_USER,
+      user: MONGO_USER,
       pass: MONGO_PASS
     }
   },
 
   appConfig: async function () {
-    const configData = await configModel.find().lean();
-    Object.assign(this.config, {
-      otp: {
-        sms: {
-          EN: 'OTP for car taxi app login is ${OTP}',
-        },
-        client: {
-          EN: 'Enter the OTP which is send to your registered mobile number *****${mobileLast4digit}',
-        },
-        wrongOtp: {
-          EN: 'OTP Mismatch, Try Again',
-        },
-      },
-      auth: {
-        noToken: {
-          EN: 'Authorization token is required',
-        },
-        invalid: {
-          EN: 'Invalid token',
-        },
-      }
-    });
+    const configData = await configModel.find({ __v : 0 }).lean();
+    Object.assign(this.config, configData);
   },
 };

@@ -1,7 +1,10 @@
 const _  = require('lodash');
 
 module.exports = {
-  formatError: (err) => (err.message ? err.message : err),
+  formatError: (err) => ({ 
+    status: err.code, 
+    message: err.message ? err.message : err 
+  }),
   smsPayload: (mobileNumber, message) => ({
     mobileNumbers: {
       messageParams: [
@@ -37,5 +40,5 @@ module.exports = {
     }
     return schema;
   },
-  languageMapper: (langData, lang='EN')=> langData[lang] || langData['EN']
+  languageMapper: (langData, lang='EN') => langData[lang] || langData['EN']
 };

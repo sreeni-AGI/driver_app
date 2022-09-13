@@ -1,4 +1,4 @@
-const { driverModel } = require("../model");
+const { driverModel } = require('../model');
 module.exports = {
   find: (filter, projection = {}) => driverModel.find(filter, projection).lean(),
   findOne: (filter, projection = {}) => driverModel.findOne(filter, projection).lean(),
