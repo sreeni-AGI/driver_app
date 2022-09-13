@@ -60,5 +60,5 @@ module.exports = {
     } catch (error) {
       return res.status(400).send(formatError(error));
     }
-  },
+  }  
 };
