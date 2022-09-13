@@ -15,7 +15,10 @@ const {
   MONGO_USER,
   MONGO_PASS,
   DRIVER_API_URL,
-  DRIVER_X_API_KEY,  
+  DRIVER_X_API_KEY,
+  AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY,
+  AWS_BUCKET,
 } = process.env;
 
 module.exports = {
@@ -32,19 +35,22 @@ module.exports = {
     JWT_SECRET,
     MONGO_URL,
     DRIVER_API_URL,
+    AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY,
+    AWS_BUCKET,
     mongodbOptions: {
       user: MONGO_USER,
-      pass: MONGO_PASS
+      pass: MONGO_PASS,
     },
-    mgwConfig:{
-      headers:{
-        "x-api-key": DRIVER_X_API_KEY
-      }      
-    }
+    mgwConfig: {
+      headers: {
+        'x-api-key': DRIVER_X_API_KEY,
+      },
+    },
   },
 
   appConfig: async function () {
-    const configData = await configModel.findOne({ __v : 0 }).lean();
+    const configData = await configModel.findOne({ __v: 0 }).lean();
     Object.assign(this.config, configData);
   },
 };
