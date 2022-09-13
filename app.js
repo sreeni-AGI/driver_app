@@ -1,16 +1,14 @@
 const express = require('express');
 const cors = require('cors');
+const upload = require("express-fileupload");
 const logger = require('./middlewares/logger');
 const utils = require('./helpers/utils');
-const { driverSchemaRule } = require('./model/driver.model');
+const { driverSchemaRule } = require('./model/driver.schema');
 const app = express();
 
 app.use(cors());
+app.use(upload());
 app.use(express.json());
-
-app.use(logger.routerLogger());
-
-app.use('/api', require('./routes'));
 
 app.get('/', (req, res) => {
   const toSend = {
@@ -32,6 +30,10 @@ app.get('/', (req, res) => {
   };
   return res.json(toSend);
 });
+
+app.use(logger.routerLogger());
+
+app.use('/api', require('./routes'));
 
 app.use(logger.errorLogger());
 

@@ -1,33 +1,23 @@
-const axios = require("axios");
-const { config } = require("../config");
+const axios = require('axios');
+const { config } = require('../config');
+const { formatQuery } = require('../helpers/utils');
 
 module.exports = {
   accountType: {
-    COLLECTION: "/Collections/Collections/",
-    OUTSTANDING: "/Outstanding/Outstanding/"
+    COLLECTION: '/collections',
+    OUTSTANDING: '/outstandings',
   },
-  getCollection: function(date, driverId) {
-    const collectionPayload = {
-      params: { driverId, date },
-    };
-    return axios.post(
-      config.DRIVER_API_URL + this.accountType.COLLECTION,
-      collectionPayload,
-      {
-        headers: {
-          "x-api-key": config.DRIVER_COLLECTION_API_KEY,
-        },
-      }
+  getCollection: function (date, driverId) {
+    const uri = config.DRIVER_API_URL + this.accountType.COLLECTION + formatQuery({ 'driver-id': driverId, 'collection-date': date })
+    return axios.get(
+      uri,
+      config.mgwConfig
     );
   },
-  getOutstanding: function(driverId) {
-    return axios.post(
-      config.DRIVER_API_URL + this.accountType.OUTSTANDING, { driverId },
-      {
-        headers: {
-          "x-api-key": config.DRIVER_OUTSTANDING_API_KEY
-        },
-      }
+  getOutstanding: function (driverId) {
+    return axios.get(
+      config.DRIVER_API_URL + this.accountType.OUTSTANDING + formatQuery({'driver-id': driverId}),
+      config.mgwConfig
     );
   },
 };

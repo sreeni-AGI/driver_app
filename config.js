@@ -1,4 +1,7 @@
+const { configModel } = require('./model');
+
 const {
+  NODE_ENV,
   MAX_REDIS_RETRY,
   MAX_MONGO_RETRY,
   REDIS_HOST,
@@ -12,13 +15,15 @@ const {
   MONGO_USER,
   MONGO_PASS,
   DRIVER_API_URL,
-  DRIVER_API_KEY,
-  DRIVER_OUTSTANDING_API_KEY,
-  DRIVER_COLLECTION_API_KEY
+  DRIVER_X_API_KEY,
+  AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY,
+  AWS_BUCKET,
 } = process.env;
 
 module.exports = {
   config: {
+    isDevelopment: NODE_ENV === 'dev',
     MAX_REDIS_RETRY,
     MAX_MONGO_RETRY,
     REDIS_HOST,
@@ -30,36 +35,22 @@ module.exports = {
     JWT_SECRET,
     MONGO_URL,
     DRIVER_API_URL,
-    DRIVER_API_KEY,
-    DRIVER_OUTSTANDING_API_KEY,
-    DRIVER_COLLECTION_API_KEY,
+    AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY,
+    AWS_BUCKET,
     mongodbOptions: {
-      user:MONGO_USER,
-      pass: MONGO_PASS
-    }
+      user: MONGO_USER,
+      pass: MONGO_PASS,
+    },
+    mgwConfig: {
+      headers: {
+        'x-api-key': DRIVER_X_API_KEY,
+      },
+    },
   },
 
   appConfig: async function () {
-    Object.assign(this.config, {
-      otp: {
-        sms: {
-          EN: 'OTP for car taxi app login is ${OTP}',
-        },
-        client: {
-          EN: 'Enter the OTP which is send to your registered mobile number *****${mobileLast4digit}',
-        },
-        wrongOtp: {
-          EN: 'OTP Mismatch, Try Again',
-        },
-      },
-      auth: {
-        noToken: {
-          EN: 'Authorization token is required',
-        },
-        invalid: {
-          EN: 'Invalid token',
-        },
-      }
-    });
+    const configData = await configModel.findOne({ __v: 0 }).lean();
+    Object.assign(this.config, configData);
   },
 };

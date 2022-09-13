@@ -12,8 +12,6 @@ module.exports = {
         collectionDate,
         req.staffId
       );
-      if (!collectionDetails)
-        return res.status(404).json({ msg: 'Collection Details not found' });
       return res.json(collectionDetails);
     } catch (error) {
       return res.status(400).send(formatError(error));
@@ -21,11 +19,7 @@ module.exports = {
   },
   outstanding: async (req, res) => {
     try {
-      const { data: outstandingDetails } = await accountService.getOutstanding(
-        req.staffId
-      );
-      if (!outstandingDetails)
-        return res.status(404).json({ msg: 'Outstanding details not found' });
+      const { data: outstandingDetails } = await accountService.getOutstanding(req.staffId);
       return res.json(outstandingDetails);
     } catch (error) {
       return res.status(400).send(formatError(error));

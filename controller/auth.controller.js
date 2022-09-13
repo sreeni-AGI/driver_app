@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const { config } = require('../config');
-const { formatError } = require('../helpers/utils');
+const { formatError, languageMapper } = require('../helpers/utils');
 const driverService = require('../services/driver.service');
 const smsService = require('../services/sms.service');
 const client = require('../helpers/redisClient');
@@ -18,8 +18,8 @@ module.exports = {
           .status(404)
           .json({ msg: 'No Driver Found with this Staff Id' });
       let OTP = await client.get(config.REDIS_PREFIX + req.body.staffId);
-      if (!OTP) {
-        OTP = _.random(9999, 99999);
+      if (!OTP || config.isDevelopment) {
+        OTP = config.isDevelopment ? 123456 : _.random(9999, 99999);
         await client.set(
           config.REDIS_PREFIX + req.body.staffId,
           OTP,
@@ -27,11 +27,12 @@ module.exports = {
           300
         );
       }
-      const toSend = _.template(config.otp.sms[req.language]|| config.otp.sms['EN'])({ OTP });
-      const isSent = await smsService.send(driver.mobileNumber.toString(), toSend);
+      
+      const toSend = _.template(languageMapper(config.otp.sms, req.language))({ OTP });
+      const isSent = config.isDevelopment || await smsService.send(driver.mobileNumber.toString(), toSend);
       if (isSent)
         return res.json({
-          msg: _.template(config.otp.client[req.language])({
+          msg: _.template(languageMapper(config.otp.client, req.language))({
             mobileLast4digit: driver.mobileNumber.toString().slice(-4),
           }),
         });
@@ -40,22 +41,27 @@ module.exports = {
     }
   },
   verifyOtp: async (req, res) => {
-    let isVerified = await client.get(config.REDIS_PREFIX + req.body.staffId) || false;
-    isVerified = isVerified == req.body.OTP;
-    if (!isVerified) return res.status(400).json({ msg: config.otp.wrongOtp[req.language] });
-    
-    const tokendata = { staffId: req.body.staffId};
-    const toSend = {
-      accestoken: jwt.sign(tokendata, config.JWT_SECRET, { expiresIn: '1d' }),
-      refreshToken: jwt.sign(tokendata, config.JWT_SECRET, {
-        expiresIn: '14d',
-      })
+    try {
+      let isVerified = await client.get(config.REDIS_PREFIX + req.body.staffId) || false;
+      isVerified = isVerified == req.body.OTP;
+      if (!isVerified) throw {message: languageMapper(config.otp.wrongOtp, req.language)};
+      
+      const tokenData = { staffId: req.body.staffId};
+      const toSend = {
+        accessToken: jwt.sign(tokenData, config.JWT_SECRET, { expiresIn: '1d' }),
+        refreshToken: jwt.sign(tokenData, config.JWT_SECRET, {
+          expiresIn: '14d',
+        })
+      }
+      Object.assign(toSend, await driverService.findOne(
+        { 'staffId': parseInt(req.body.staffId) },
+        { _id: 0, mobileNumber: 1, name: 1, location: 1 }
+      ))    
+      client.del(config.REDIS_PREFIX + req.body.staffId)
+      return res.json(toSend);
+    } catch (error) {
+      return res.json({msg: formatError(error)})
     }
-    Object.assign(toSend, await driverService.findOne(
-      { 'STAFF NUMBER': parseInt(req.body.staffId) },
-      { _id: 0, mobileNumber: 1, name: 1, location: 1 }
-    ))    
-    client.del(config.REDIS_PREFIX + req.body.staffId)
-    return res.json(toSend);
+
   },
 };

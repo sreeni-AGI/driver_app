@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const utils = require('../helpers/utils');
+
 const driverSchemaRule = {
   staffId: {
     type: Number,
@@ -73,5 +74,4 @@ utils.filterUndeletedMongooseHooks(driverSchema);
 module.exports = {
   driverSchemaRule,
   driverSchema,
-  driverModel: mongoose.model('drivernew', driverSchema),
 };
