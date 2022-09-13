@@ -15,6 +15,9 @@ const {
   MONGO_USER,
   MONGO_PASS,
   DRIVER_API_URL,
+  AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY,
+  AWS_BUCKET,
   MGW_KEY,
   BUDDY_BFF_KEY
 } = process.env;
@@ -33,10 +36,13 @@ module.exports = {
     JWT_SECRET,
     MONGO_URL,
     DRIVER_API_URL,
+    AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY,
+    AWS_BUCKET,
     BUDDY_BFF_KEY,
     mongodbOptions: {
       user: MONGO_USER,
-      pass: MONGO_PASS
+      pass: MONGO_PASS,
     },
     mgwConfig:{
       headers:{
@@ -46,7 +52,7 @@ module.exports = {
   },
 
   appConfig: async function () {
-    const configData = await configModel.findOne({ __v : 0 }).lean();
+    const configData = await configModel.findOne({ __v: 0 }).lean();
     Object.assign(this.config, configData);
   },
 };
