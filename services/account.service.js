@@ -1,7 +1,5 @@
 const axios = require("axios");
 const { config } = require("../config");
-const { getDriverHeader } = require("../helpers/utils");
-
 
 module.exports = {
   accountType: {
