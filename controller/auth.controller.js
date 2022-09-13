@@ -27,11 +27,12 @@ module.exports = {
           300
         );
       }
+      
       const toSend = _.template(languageMapper(config.otp.sms, req.language))({ OTP });
       const isSent = config.isDevelopment || await smsService.send(driver.mobileNumber.toString(), toSend);
       if (isSent)
         return res.json({
-          msg: _.template(config.otp.client[req.language])({
+          msg: _.template(languageMapper(config.otp.client, req.language))({
             mobileLast4digit: driver.mobileNumber.toString().slice(-4),
           }),
         });
@@ -40,22 +41,27 @@ module.exports = {
     }
   },
   verifyOtp: async (req, res) => {
-    let isVerified = await client.get(config.REDIS_PREFIX + req.body.staffId) || false;
-    isVerified = isVerified == req.body.OTP;
-    if (!isVerified) return res.status(400).json({ msg: config.otp.wrongOtp[req.language] });
-    
-    const tokenData = { staffId: req.body.staffId};
-    const toSend = {
-      accessToken: jwt.sign(tokenData, config.JWT_SECRET, { expiresIn: '1d' }),
-      refreshToken: jwt.sign(tokenData, config.JWT_SECRET, {
-        expiresIn: '14d',
-      })
+    try {
+      let isVerified = await client.get(config.REDIS_PREFIX + req.body.staffId) || false;
+      isVerified = isVerified == req.body.OTP;
+      if (!isVerified) throw {message: languageMapper(config.otp.wrongOtp, req.language)};
+      
+      const tokenData = { staffId: req.body.staffId};
+      const toSend = {
+        accessToken: jwt.sign(tokenData, config.JWT_SECRET, { expiresIn: '1d' }),
+        refreshToken: jwt.sign(tokenData, config.JWT_SECRET, {
+          expiresIn: '14d',
+        })
+      }
+      Object.assign(toSend, await driverService.findOne(
+        { 'staffId': parseInt(req.body.staffId) },
+        { _id: 0, mobileNumber: 1, name: 1, location: 1 }
+      ))    
+      client.del(config.REDIS_PREFIX + req.body.staffId)
+      return res.json(toSend);
+    } catch (error) {
+      return res.json({msg: formatError(error)})
     }
-    Object.assign(toSend, await driverService.findOne(
-      { 'staffId': parseInt(req.body.staffId) },
-      { _id: 0, mobileNumber: 1, name: 1, location: 1 }
-    ))    
-    client.del(config.REDIS_PREFIX + req.body.staffId)
-    return res.json(toSend);
+
   },
 };
