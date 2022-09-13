@@ -15,9 +15,8 @@ const {
   MONGO_USER,
   MONGO_PASS,
   DRIVER_API_URL,
-  DRIVER_OUTSTANDING_API_KEY,
-  DRIVER_COLLECTION_API_KEY,
-  DRIVER_X_API_KEY
+  DRIVER_API_KEY,
+  DRIVER_X_API_KEY,  
 } = process.env;
 
 module.exports = {
@@ -34,12 +33,16 @@ module.exports = {
     JWT_SECRET,
     MONGO_URL,
     DRIVER_API_URL,
-    DRIVER_OUTSTANDING_API_KEY,
-    DRIVER_COLLECTION_API_KEY,
+    DRIVER_API_KEY,
     DRIVER_X_API_KEY,
     mongodbOptions: {
       user:MONGO_USER,
       pass: MONGO_PASS
+    },
+    mgwConfig:{
+      headers:{
+        "x-api-key":DRIVER_API_KEY
+      }      
     }
   },
 
