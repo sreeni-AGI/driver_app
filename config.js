@@ -15,10 +15,10 @@ const {
   MONGO_USER,
   MONGO_PASS,
   DRIVER_API_URL,
-  DRIVER_X_API_KEY,
   AWS_ACCESS_KEY_ID,
   AWS_SECRET_ACCESS_KEY,
   AWS_BUCKET,
+  MGW_KEY,  
 } = process.env;
 
 module.exports = {
@@ -42,11 +42,11 @@ module.exports = {
       user: MONGO_USER,
       pass: MONGO_PASS,
     },
-    mgwConfig: {
-      headers: {
-        'x-api-key': DRIVER_X_API_KEY,
-      },
-    },
+    mgwConfig:{
+      headers:{
+        "x-api-key": MGW_KEY
+      }      
+    }
   },
 
   appConfig: async function () {

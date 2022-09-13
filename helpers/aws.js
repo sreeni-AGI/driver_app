@@ -7,10 +7,10 @@ const s3 = new AWS.S3({
   secretAccessKey: config.AWS_SECRET_ACCESS_KEY, // your AWS access key
 });
 
-async function uploadFile(file, location='temp') {
+async function uploadFile(file) {
   const params = {
     Bucket: config.AWS_BUCKET,
-    Key: `${location}/${Date.now()}_${file.name}`,
+    Key: `temp/${Date.now()}_${file.name}`,
     Body: file.data,
     ACL: 'public-read',
   };
@@ -18,16 +18,15 @@ async function uploadFile(file, location='temp') {
   return data.Location; // returns the url location
 }
 
-async function moveFile(){
-    const s3Params = {
-        Bucket: bucketName,
-        CopySource: `${bucketName}/${sourceFolder}/${fileName}`,
-        Key: `${destFolder}/${fileName}`
-    };
-
-function copyFile() {
-  return s3.copyObject(s3Params).promise();
-    }
+async function moveFile(destFolder='buddy', fileName) {
+  fileName = fileName.slice(4);
+  const s3Params = {
+    Bucket: config.AWS_BUCKET,
+    CopySource: `${config.AWS_BUCKET}/temp/${fileName}`,
+    Key: `${destFolder}/${fileName}`,
+  };
+  await s3.copyObject(s3Params).promise();
+  await s3.deleteObject({ Bucket: config.AWS_BUCKET, Key: `temp/${fileName}` }).promise();
 }
 
-module.exports = { uploadFile };
+module.exports = { uploadFile, moveFile };
