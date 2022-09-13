@@ -93,6 +93,11 @@ spec:
                 secretKeyRef:
                   name: buddy-bff
                   key: MONGO_PASS
+            - name: DRIVER_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: buddy-bff
+                  key: DRIVER_API_URL
             - name: DRIVER_X_API_KEY
               valueFrom:
                 secretKeyRef:

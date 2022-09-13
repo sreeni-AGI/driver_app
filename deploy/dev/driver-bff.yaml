@@ -10,6 +10,7 @@ data:
   REDIS_PORT: '18809'
   REDIS_PREFIX: DRIVER_BFF_
   SMS_HOST: http://Gateway-Load-balancer-1739146709.me-south-1.elb.amazonaws.com/qa/rest/common/communication/v1/sms/
+  DRIVER_API_URL: http://Gateway-Load-balancer-1739146709.me-south-1.elb.amazonaws.com/qa/rest/automotive/driver/v1/drivers
   MONGO_URL: mongodb+srv://cluster0.eedgq8o.mongodb.net/driverappdb?retryWrites=true&w=majority
   MONGO_USER: agidev
   NODE_ENV: dev
