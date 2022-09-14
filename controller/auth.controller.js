@@ -21,7 +21,7 @@ module.exports = {
       if (!OTP || config.isDevelopment) {
         OTP = config.isDevelopment ? 123456 : _.random(9999, 99999);
         await client.set(
-          config.REDIS_PREFIX + req.body.staffId,
+          config.REDIS_PREFIX+ '_OTP_' + req.body.staffId,
           OTP,
           'ex',
           300

@@ -12,7 +12,7 @@ module.exports = {
   },
   findOne: async (req, res) => {
     try {
-      const data = await driverService.findOne({ staffId: req.params.staffId }, {});
+      const data = await driverService.findOne({"staffId":req.params.staffId}, req.query.projection);
       return res.json(data)
     } catch (error) {
       return res.status(400).send(formatError(error));
