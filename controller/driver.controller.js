@@ -12,12 +12,11 @@ module.exports = {
   },
   findOne: async (req, res) => {
     try {
-      const data = await driverService.findOne(req.query.filter, req.query.projection);
+      const data = await driverService.findOne({ staffId: req.params.staffId }, {});
       return res.json(data)
     } catch (error) {
       return res.status(400).send(formatError(error));
     }
-
   },
   create: async (req, res) => {
     try {
