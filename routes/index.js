@@ -6,6 +6,7 @@ const auth = require('./auth');
 const accounts = require('./accounts');
 const driver = require('./driver');
 const accident = require('./accident');
+const operations = require('./operations');
 
 
 router.use(useHeader);
@@ -21,6 +22,6 @@ router.use('/auth', auth);
 router.use('/accounts', accounts);
 router.use('/driver', driver);
 router.use('/accident', accident)
-
+router.use('/operations', operations)
 
 module.exports = router;

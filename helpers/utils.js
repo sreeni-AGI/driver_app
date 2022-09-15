@@ -44,5 +44,5 @@ module.exports = {
       toReturn += `${key}=${payload[key]}&`
     }
     return toReturn.slice(0, -1);
-  }
+  }   
 };

@@ -5,6 +5,7 @@ const { formatError, languageMapper } = require('../helpers/utils');
 const driverService = require('../services/driver.service');
 const smsService = require('../services/sms.service');
 const client = require('../helpers/redisClient');
+const constant = require('../helpers/constant');
 
 module.exports = {
   sendOtp: async (req, res) => {
@@ -17,18 +18,18 @@ module.exports = {
         return res
           .status(404)
           .json({ msg: 'No Driver Found with this Staff Id' });
-      let OTP = await client.get(config.REDIS_PREFIX + req.body.staffId);
-      if (!OTP || config.isDevelopment) {
-        OTP = config.isDevelopment ? 123456 : _.random(9999, 99999);
+      let otp = await client.get(config.REDIS_PREFIX + constant.OTP + req.body.staffId);
+      if (!otp || config.isDevelopment) {
+        otp = config.isDevelopment ? 123456 : _.random(9999, 99999);
         await client.set(
-          config.REDIS_PREFIX + req.body.staffId,
-          OTP,
+          config.REDIS_PREFIX+ constant.OTP + req.body.staffId,
+          otp,
           'ex',
           300
         );
       }
       
-      const toSend = _.template(languageMapper(config.otp.sms, req.language))({ OTP });
+      const toSend = _.template(languageMapper(config.otp.sms, req.language))({ otp });
       const isSent = config.isDevelopment || await smsService.send(driver.mobileNumber.toString(), toSend);
       if (isSent)
         return res.json({
@@ -42,7 +43,7 @@ module.exports = {
   },
   verifyOtp: async (req, res) => {
     try {
-      let isVerified = await client.get(config.REDIS_PREFIX + req.body.staffId) || false;
+      let isVerified = await client.get(config.REDIS_PREFIX + constant.OTP + req.body.staffId) || false;
       isVerified = isVerified == req.body.OTP;
       if (!isVerified) throw {message: languageMapper(config.otp.wrongOtp, req.language)};
       
@@ -55,9 +56,9 @@ module.exports = {
       }
       Object.assign(toSend, await driverService.findOne(
         { 'staffId': parseInt(req.body.staffId) },
-        { _id: 0, mobileNumber: 1, name: 1, location: 1 }
+        { _id: 0, rtaId: 1, mobileNumber: 1, name: 1, emailId:1, careemId:1, national:1, location: 1,  }
       ))    
-      client.del(config.REDIS_PREFIX + req.body.staffId)
+      client.del(config.REDIS_PREFIX + constant.OTP + req.body.staffId)
       return res.json(toSend);
     } catch (error) {
       return res.status(400).json({msg: formatError(error)})

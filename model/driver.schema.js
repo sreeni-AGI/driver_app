@@ -62,6 +62,11 @@ const driverSchemaRule = {
     required: true,
   },
   location: String,
+  emailId: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   isDeleted: {
     type: Boolean,
     required: true,
