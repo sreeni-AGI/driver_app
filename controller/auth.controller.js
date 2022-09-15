@@ -38,7 +38,7 @@ module.exports = {
           }),
         });
     } catch (error) {
-      return res.status(400).send(formatError(error));
+      return res.status(400).json(formatError(error));
     }
   },
   verifyOtp: async (req, res) => {
@@ -61,8 +61,7 @@ module.exports = {
       client.del(config.REDIS_PREFIX + constant.OTP + req.body.staffId)
       return res.json(toSend);
     } catch (error) {
-      return res.status(400).json({msg: formatError(error)})
+      return res.status(400).json(formatError(error))
     }
-
   },
 };

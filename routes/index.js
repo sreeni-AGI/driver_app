@@ -15,7 +15,7 @@ router.post('/uploadFile', async (req, res)=> {
     try {
         return res.status(201).json({location: await uploadFile(req.files.file)})
     } catch (error) {
-        return res.status(400).json({msg: formatError(error)})
+        return res.status(400).json(formatError(error))
     }
 })
 router.use('/auth', auth);

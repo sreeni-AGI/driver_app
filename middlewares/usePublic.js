@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
             return res.status(401).json({ msg: 'Invalid API key' });
         }
     } catch (error) {
-        return res.status(400).send(formatError(error));
+        return res.status(400).json(formatError(error));
     }
     next();
 }
