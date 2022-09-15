@@ -14,3 +14,6 @@ data:
   MONGO_URL: mongodb+srv://cluster0.eedgq8o.mongodb.net/driverappdb?retryWrites=true&w=majority
   MONGO_USER: agidev
   NODE_ENV: dev
+  AWS_ACCESS_KEY_ID: AKIA6QSAROI6IAUPCL6P
+  AWS_SECRET_ACCESS_KEY: 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
+  AWS_BUCKET: buddyapp-dev-bucket

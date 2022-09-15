@@ -108,6 +108,21 @@ spec:
                 secretKeyRef:
                   name: buddy-bff
                   key: MGW_KEY
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: buddy-bff
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: buddy-bff
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: buddy-bff
+                  key: AWS_BUCKET
 ---
 apiVersion: v1
 kind: Service
