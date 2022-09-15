@@ -11,7 +11,7 @@ module.exports = {
                 }
             }
         }
-        return axios.get(
+        return axios.post(
             config.DRIVER_API_URL,
             lastLoginPayload,
             config.mgwConfig

@@ -1,4 +1,4 @@
 module.exports = {
     OTP: '_OTP_',
-    LATELOGIN: '_LATELOGIN_'
+    LATE_LOGIN: '_LATE_LOGIN_'
 }
