@@ -19,7 +19,7 @@ const {
   AWS_SECRET_ACCESS_KEY,
   AWS_BUCKET,
   MGW_KEY,
-  BUDDY_BFF_KEY,
+  BUDDY_BFF_KEY
 } = process.env;
 
 module.exports = {

@@ -44,9 +44,5 @@ module.exports = {
       toReturn += `${key}=${payload[key]}&`
     }
     return toReturn.slice(0, -1);
-  },
-  checkDateFormat: date => {    
-        const regex = /^\d{2}-\d{2}-\d{4}$/;
-        return (date.match(regex))?true:false;
   }
 };
