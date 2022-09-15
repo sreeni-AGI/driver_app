@@ -115,7 +115,7 @@ spec:
                   key: AWS_ACCESS_KEY_ID
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: buddy-bff
                   key: AWS_SECRET_ACCESS_KEY
             - name: AWS_BUCKET
