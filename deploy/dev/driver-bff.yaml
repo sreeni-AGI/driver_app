@@ -1,0 +1,16 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: buddy-bff
+  namespace: default-dev
+data:
+  OTP_EXPIRE: '5'
+  MAX_REDIS_RETRY: '5'
+  REDIS_HOST: redis-18809.c305.ap-south-1-1.ec2.cloud.redislabs.com
+  REDIS_PORT: '18809'
+  REDIS_PREFIX: DRIVER_BFF_
+  SMS_HOST: http://Gateway-Load-balancer-1739146709.me-south-1.elb.amazonaws.com/qa/rest/common/communication/v1/sms/
+  DRIVER_API_URL: http://Gateway-Load-balancer-1739146709.me-south-1.elb.amazonaws.com/qa/rest/automotive/driver/v1/drivers
+  MONGO_URL: mongodb+srv://cluster0.eedgq8o.mongodb.net/driverappdb?retryWrites=true&w=majority
+  MONGO_USER: agidev
+  NODE_ENV: dev
