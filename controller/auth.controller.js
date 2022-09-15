@@ -5,7 +5,7 @@ const { formatError, languageMapper } = require('../helpers/utils');
 const driverService = require('../services/driver.service');
 const smsService = require('../services/sms.service');
 const client = require('../helpers/redisClient');
-const { OTP } = require('../helpers/constant');
+const constant = require('../helpers/constant');
 
 module.exports = {
   sendOtp: async (req, res) => {
@@ -18,11 +18,11 @@ module.exports = {
         return res
           .status(404)
           .json({ msg: 'No Driver Found with this Staff Id' });
-      let otp = await client.get(config.REDIS_PREFIX + OTP + req.body.staffId);
+      let otp = await client.get(config.REDIS_PREFIX + constant.OTP + req.body.staffId);
       if (!otp || config.isDevelopment) {
         otp = config.isDevelopment ? 123456 : _.random(9999, 99999);
         await client.set(
-          config.REDIS_PREFIX+ OTP + req.body.staffId,
+          config.REDIS_PREFIX+ constant.OTP + req.body.staffId,
           otp,
           'ex',
           300
@@ -43,7 +43,7 @@ module.exports = {
   },
   verifyOtp: async (req, res) => {
     try {
-      let isVerified = await client.get(config.REDIS_PREFIX + OTP + req.body.staffId) || false;
+      let isVerified = await client.get(config.REDIS_PREFIX + constant.OTP + req.body.staffId) || false;
       isVerified = isVerified == req.body.OTP;
       if (!isVerified) throw {message: languageMapper(config.otp.wrongOtp, req.language)};
       
@@ -58,7 +58,7 @@ module.exports = {
         { 'staffId': parseInt(req.body.staffId) },
         { _id: 0, rtaId: 1, mobileNumber: 1, name: 1, emailId:1, careemId:1, national:1, location: 1,  }
       ))    
-      client.del(config.REDIS_PREFIX + OTP + req.body.staffId)
+      client.del(config.REDIS_PREFIX + constant.OTP + req.body.staffId)
       return res.json(toSend);
     } catch (error) {
       return res.status(400).json({msg: formatError(error)})
