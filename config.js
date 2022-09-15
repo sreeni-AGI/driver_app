@@ -19,7 +19,8 @@ const {
   AWS_SECRET_ACCESS_KEY,
   AWS_BUCKET,
   MGW_KEY,
-  BUDDY_BFF_KEY
+  BUDDY_BFF_KEY,
+  FINES_ENQUIRY_API_URL,
 } = process.env;
 
 module.exports = {
@@ -40,6 +41,7 @@ module.exports = {
     AWS_SECRET_ACCESS_KEY,
     AWS_BUCKET,
     BUDDY_BFF_KEY,
+    FINES_ENQUIRY_API_URL,
     mongodbOptions: {
       user: MONGO_USER,
       pass: MONGO_PASS,

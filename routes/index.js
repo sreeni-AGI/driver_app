@@ -7,7 +7,7 @@ const accounts = require('./accounts');
 const driver = require('./driver');
 const accident = require('./accident');
 const operations = require('./operations');
-
+const fines = require('./fines');
 
 router.use(useHeader);
 
@@ -21,7 +21,9 @@ router.post('/uploadFile', async (req, res)=> {
 router.use('/auth', auth);
 router.use('/accounts', accounts);
 router.use('/driver', driver);
-router.use('/accident', accident)
-router.use('/operations', operations)
+router.use('/accident', accident);
+router.use('/operations', operations);
+router.use('/fines', fines);
+
 
 module.exports = router;
