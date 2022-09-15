@@ -1,3 +1,4 @@
+const { formatError } = require('../helpers/utils');
 const driverService = require('../services/driver.service');
 
 module.exports = {
