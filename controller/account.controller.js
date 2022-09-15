@@ -14,7 +14,7 @@ module.exports = {
       );
       return res.json(collectionDetails);
     } catch (error) {
-      return res.status(400).send(formatError(error));
+      return res.status(400).json(formatError(error));
     }
   },
   outstanding: async (req, res) => {
@@ -22,7 +22,7 @@ module.exports = {
       const { data: outstandingDetails } = await accountService.getOutstanding(req.staffId);
       return res.json(outstandingDetails);
     } catch (error) {
-      return res.status(400).send(formatError(error));
+      return res.status(400).json(formatError(error));
     }
   },
 };
