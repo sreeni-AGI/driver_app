@@ -1,3 +1,4 @@
+const { formatError } = require('../helpers/utils');
 const driverService = require('../services/driver.service');
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
       const data = await driverService.find(req.query.filter, req.query.projection);
       return res.json(data)
     } catch (error) {
-      return res.status(400).send(formatError(error));
+      return res.status(400).json(formatError(error));
     }
 
   },
@@ -15,7 +16,7 @@ module.exports = {
       const data = await driverService.findOne({ staffId: req.params.staffId }, req.query.projection);
       return res.json(data)
     } catch (error) {
-      return res.status(400).send(formatError(error));
+      return res.status(400).json(formatError(error));
     }
   },
   create: async (req, res) => {
@@ -23,7 +24,7 @@ module.exports = {
       const driverResult = await driverService.create(req.body);
       return res.status(201).json(driverResult);
     } catch (error) {
-      return res.status(400).send(formatError(error));
+      return res.status(400).json(formatError(error));
     }
   },
 
@@ -36,7 +37,7 @@ module.exports = {
       );
       return res.status(202).json(driver);
     } catch (error) {
-      return res.status(400).send(formatError(error));
+      return res.status(400).json(formatError(error));
     }
   },
   patchOne: async(req, res)=>{
@@ -47,7 +48,7 @@ module.exports = {
       );
       return res.status(202).json(driver);
     } catch (error) {
-      return res.status(400).send(formatError(error));
+      return res.status(400).json(formatError(error));
     }
   },
   deleteOne: async (req, res) => {
@@ -57,7 +58,7 @@ module.exports = {
       );
       return res.json(delDriver);
     } catch (error) {
-      return res.status(400).send(formatError(error));
+      return res.status(400).json(formatError(error));
     }
   },
 };
