@@ -52,6 +52,7 @@ const driverSchemaRule = {
   mobileNumber: {
     type: Number,
     required: true,
+    unique: true
   },
   dateOfBirth: {
     type: String,
@@ -61,11 +62,13 @@ const driverSchemaRule = {
     type: String,
     required: true,
   },
-  location: String,
+  location: {
+    type: String,
+    required: true
+  },
   emailId: {
     type: String,
     unique: true,
-    required: true,
   },
   isDeleted: {
     type: Boolean,
