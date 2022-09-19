@@ -4,7 +4,7 @@ const { formatError } = require('../helpers/utils');
 module.exports = (req, res, next) => {
     try {
         if (config.BUDDY_BFF_KEY != req.headers['x-api-key']) {
-            return res.status(401).json({ msg: 'Invalid API key' });
+            return res.status(401).json({ message: 'Invalid API key' });
         }
     } catch (error) {
         return res.status(400).json(formatError(error));

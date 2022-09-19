@@ -2,8 +2,8 @@ const _  = require('lodash');
 
 module.exports = {
   formatError: err => {
-    const msg = err.message ? err.message : err;
-    return {status:'E', msg}
+    const message = err.message ? err.message : err;
+    return {status:'E', message}
   },
   smsPayload: (mobileNumber, message) => ({
     mobileNumbers: {

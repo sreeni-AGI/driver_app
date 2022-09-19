@@ -24,7 +24,7 @@ module.exports = {
           );         
         return res.json({message:'You have logged in successfully'});     
       } catch(error){
-        return res.status(400).json({msg: formatError(error)})
+        return res.status(400).json({message: formatError(error)})
       }
     }
 }

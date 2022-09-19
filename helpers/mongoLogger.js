@@ -34,7 +34,7 @@ module.exports = function (db, option, label) {
         transports: [this.mongoTransport('route')],
         format: winston.format.json(),
         statusLevels: true,
-        msg: '{{req.method}} {{req.url}}',
+        message: '{{req.method}} {{req.url}}',
         requestWhitelist: ['url', 'headers', 'method', 'body', 'query'],
         responseWhitelist: ['_headers', 'statusCode', 'body', 'responseTime'],
         headerBlacklist: ['connection'],
