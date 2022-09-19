@@ -14,6 +14,7 @@ module.exports = {
   findOne: async (req, res) => {
     try {
       const data = await driverService.findOne({ staffId: req.params.staffId }, req.query.projection);
+      if(!data) return res.status(401).json({status: 'E', message:'Driver Not Found'});
       return res.json(data)
     } catch (error) {
       return res.status(400).json(formatError(error));
