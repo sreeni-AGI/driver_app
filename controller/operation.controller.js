@@ -26,5 +26,14 @@ module.exports = {
       } catch(error){
         return res.status(400).json({msg: formatError(error)})
       }
+    },
+
+    accidentList: async (req, res) => {
+      try{
+        const accidentList =  await operationService.accidentList(req.staffId, req.body.category);
+        res.json(accidentList);
+      } catch(error){
+        return res.status(400).json({msg: formatError(error)})
+    }
     }
 }
