@@ -7,7 +7,7 @@ module.exports = {
       const collectionDate = req.query.collectionDate;
       const regex = /^\d{2}-\d{2}-\d{4}$/;
       if (!collectionDate.match(regex))
-        return res.status(404).json({ msg: 'Incorrect Date format' });
+        return res.status(404).json({ message: 'Incorrect Date format' });
       const { data: collectionDetails } = await accountService.getCollection(
         collectionDate,
         req.staffId

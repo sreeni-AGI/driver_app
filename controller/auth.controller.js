@@ -17,7 +17,7 @@ module.exports = {
       if (!driver)
         return res
           .status(404)
-          .json({ msg: 'No Driver Found with this Staff Id' });
+          .json({ message: 'No Driver Found with this Staff Id' });
       let otp = await client.get(config.REDIS_PREFIX + constant.OTP + req.body.staffId);
       if (!otp || config.isDevelopment) {
         otp = config.isDevelopment ? 123456 : _.random(9999, 99999);
@@ -33,7 +33,7 @@ module.exports = {
       const isSent = config.isDevelopment || await smsService.send(driver.mobileNumber.toString(), toSend);
       if (isSent)
         return res.json({
-          msg: _.template(languageMapper(config.otp.client, req.language))({
+          message: _.template(languageMapper(config.otp.client, req.language))({
             mobileLast4digit: driver.mobileNumber.toString().slice(-4),
           }),
         });

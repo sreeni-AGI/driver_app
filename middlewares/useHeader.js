@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
       const tokenData = jwt.verify(token, config.JWT_SECRET);
       req.staffId = tokenData.staffId;
     } catch (error) {
-      return res.status(401).json({msg:'Invalid Token'});
+      return res.status(401).json({message:'Invalid Token'});
     }
   }
   next();
